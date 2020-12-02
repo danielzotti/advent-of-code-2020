@@ -1,8 +1,16 @@
 import React from 'react';
-import { input1 } from './Day2.inputs';
-import './Day2.scss';
+import { input } from './Day2.inputs';
+import { ResultItem } from '../../shared/ResultItem';
+import { DayItem } from '../../shared/DayItem';
 
-const inputTextRows = input1.split('\n');
+export interface PasswordItem {
+  min: number,
+  max: number,
+  letter: string,
+  text: string
+}
+
+const inputTextRows = input.split('\n');
 const inputItems = inputTextRows.map(item => {
   const parts = item.split(' ');
 
@@ -17,13 +25,6 @@ const inputItems = inputTextRows.map(item => {
     text
   } as PasswordItem;
 });
-
-export interface PasswordItem {
-  min: number,
-  max: number,
-  letter: string,
-  text: string
-}
 
 const isPasswordAOk = (item: PasswordItem) => {
   const { min, max, letter, text } = item;
@@ -42,23 +43,19 @@ const isPasswordBOk = (item: PasswordItem) => {
 export const Day2: React.FC = () => {
 
   return (
-    <div>
-      <h1>Day2</h1>
-      <pre>{ inputTextRows.map(item => {
-        return `${ item }
+    <>
+      <DayItem day={ 2 }>
+        <pre key="input">{ inputTextRows.map(item => {
+          return `${ item }
 `;
-      }) }</pre>
-
-      <h2>
-        Day2 A Result: { inputItems.reduce((acc, item) => {
-        return isPasswordAOk(item) ? acc + 1 : acc;
-      }, 0) }
-      </h2>
-      <h2>
-        Day2 B Result: { inputItems.reduce((acc, item) => {
-        return isPasswordBOk(item) ? acc + 1 : acc;
-      }, 0) }
-      </h2>
-    </div>
+        }) }</pre>
+        <span key="partA">{ inputItems.reduce((acc, item) => {
+          return isPasswordAOk(item) ? acc + 1 : acc;
+        }, 0) }</span>
+        <span key="partB">{ inputItems.reduce((acc, item) => {
+          return isPasswordBOk(item) ? acc + 1 : acc;
+        }, 0) }</span>
+      </DayItem>
+    </>
   );
 };

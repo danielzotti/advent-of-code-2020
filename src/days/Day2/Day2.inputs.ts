@@ -1,4 +1,4 @@
-export const input1 = `4-5 t: ftttttrvts
+export const input = `4-5 t: ftttttrvts
 7-8 k: kkkkkkkf
 4-6 k: gqjkkk
 1-2 t: rttb
