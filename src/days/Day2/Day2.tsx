@@ -1,6 +1,5 @@
 import React from 'react';
 import { input } from './Day2.inputs';
-import { ResultItem } from '../../shared/ResultItem';
 import { DayItem } from '../../shared/DayItem';
 
 export interface PasswordItem {

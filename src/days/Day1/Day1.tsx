@@ -4,7 +4,7 @@ import { DayItem } from '../../shared/DayItem';
 
 const numbers = input.split('\n').map(i => parseInt(i));
 
-const ifSumIs2020GetProduct = (numbers: Array<number>) => {
+const ifSumOf2NumbersIs2020GetProduct = (numbers: Array<number>) => {
   let data;
   for(let i = 0; i < numbers.length; i++) {
     for(let j = 0; j < numbers.length; j++) {
@@ -17,7 +17,7 @@ const ifSumIs2020GetProduct = (numbers: Array<number>) => {
   return data;
 };
 
-const ifSumIs2020GetProductB = (numbers: Array<number>) => {
+const ifSumOf3NumbersIs2020GetProduct = (numbers: Array<number>) => {
   let data;
   for(let i = 0; i < numbers.length; i++) {
     for(let j = 0; j < numbers.length; j++) {
@@ -41,8 +41,8 @@ export const Day1: React.FC = () => {
           return `${ item }
 `;
         }) }</pre>
-        <span key="partA">{ ifSumIs2020GetProduct(numbers) }</span>
-        <span key="partB">{ ifSumIs2020GetProductB(numbers) }</span>
+        <span key="partA">{ ifSumOf2NumbersIs2020GetProduct(numbers) }</span>
+        <span key="partB">{ ifSumOf3NumbersIs2020GetProduct(numbers) }</span>
       </DayItem>
     </>
   );

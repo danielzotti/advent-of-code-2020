@@ -5,7 +5,7 @@ export interface ResultItemProps {
   children?: any
 }
 
-export const ResultItem: React.FC<ResultItemProps> = (props: ResultItemProps) => {
+export const ResultItem: React.FC<ResultItemProps> = (props) => {
   return (
     <div className="ResultItem">
       <span className="result-item__label">
@@ -14,5 +14,6 @@ export const ResultItem: React.FC<ResultItemProps> = (props: ResultItemProps) =>
       <span className="result-item__value">
         { props.children }
       </span>
-    </div>);
+    </div>
+  );
 };
