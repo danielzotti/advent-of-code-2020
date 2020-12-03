@@ -5,6 +5,7 @@ import { ResultItem } from './ResultItem';
 export interface DayItemProps {
   day: number;
   children?: any;
+  inputText: string;
 }
 
 export const DayItem: React.FC<DayItemProps> = (props) => {
@@ -18,9 +19,15 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
   return (
     <div className="DayItem">
       <h3>Day{ props.day }</h3>
+
       <div className="day__input">
-        Input:
-        { getComponent('input') }
+        Input: <a href={ `https://adventofcode.com/2020/day/${ props.day }` }
+                  rel="noreferrer"
+                  target="_blank">instructions</a>
+        <textarea className="day__input__value"
+                  readOnly
+                  value={ props.inputText }>
+</textarea>
       </div>
       <div className="day__results">
         <ResultItem part="A">

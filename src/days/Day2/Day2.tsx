@@ -43,11 +43,7 @@ export const Day2: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 2 }>
-        <pre key="input">{ inputTextRows.map(item => {
-          return `${ item }
-`;
-        }) }</pre>
+      <DayItem day={ 2 } inputText={input}>
         <span key="partA">{ inputItems.reduce((acc, item) => {
           return isPasswordAOk(item) ? acc + 1 : acc;
         }, 0) }</span>

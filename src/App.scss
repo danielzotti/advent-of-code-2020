@@ -1,22 +1,44 @@
 .App {
   max-width: 500px;
-  margin:0 auto;
-}
-pre {
-  max-height: 80px;
-  overflow: auto;
-  outline:1px solid gray;
-}
-.DayItem {
-  padding:10px;
-  border:1px solid black;
-  margin-bottom: 10px;
-  h1,h2,h3,h4,h5,h6 {
-    margin-top:0;
+  margin: 0 auto;
+
+  a {
+    &, &:active, &:visited, &:focus {
+      color: gray;
+    }
+
+    &:hover {
+      color: darkgray;
+    }
   }
+}
+
+
+.DayItem {
+  padding: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+  }
+
   .day__input {
 
+    .day__input__value {
+      display: block;
+      width:100%;
+      max-width:100%;
+      min-width:100%;
+      height: 100px;
+      max-height: 350px;
+      overflow: auto;
+      border: 1px solid gray;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
   }
+
   .day__results {
 
   }
@@ -24,9 +46,11 @@ pre {
 
 .ResultItem {
   margin-bottom: 5px;
+
   .result-item__label {
     margin-right: 5px;
   }
+
   .result-item__value {
     font-weight: bold;
   }

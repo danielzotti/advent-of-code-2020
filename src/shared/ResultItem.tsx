@@ -9,7 +9,7 @@ export const ResultItem: React.FC<ResultItemProps> = (props) => {
   return (
     <div className="ResultItem">
       <span className="result-item__label">
-        Part { props.part }:
+        Answer { props.part }:
       </span>
       <span className="result-item__value">
         { props.children }
