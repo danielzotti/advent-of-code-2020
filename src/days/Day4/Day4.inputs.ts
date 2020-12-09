@@ -1,6 +1,62 @@
-export const requiredKeys = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid'];
-export const optionalKeys = ['cid'];
-export const validKeys = [...requiredKeys, ...optionalKeys];
+export const keyValueRegexp = /(?<key>\S+):(?<value>\S+)+\s?/gm
+export interface PassportValidation {
+  min?: number,
+  max?: number,
+  regexp: RegExp
+}
+
+export interface Passport {
+  byr: Array<PassportValidation>,
+  iyr: Array<PassportValidation>,
+  eyr: Array<PassportValidation>,
+  hgt: Array<PassportValidation>,
+  hcl: Array<PassportValidation>,
+  ecl: Array<PassportValidation>,
+  pid: Array<PassportValidation>
+}
+
+export const validationObject: Passport = {
+  byr: [{
+    min: 1920,
+    max: 2002,
+    regexp: /\d{4}/
+  }],
+  iyr: [{
+    min: 2010,
+    max: 2020,
+    regexp: /\d{4}/
+  }],
+  eyr: [{
+    min: 2020,
+    max: 2030,
+    regexp: /\d{4}/
+  }],
+  hgt: [
+    {
+      min: 150,
+      max: 193,
+      regexp: /\d+cm/,
+    },
+    {
+      min: 59,
+      max: 76,
+      regexp: /\d+in/,
+    }
+  ],
+  hcl: [{
+    regexp: /^#[0-9a-f]{6}/
+  }],
+  ecl: [{
+    regexp: /amb|blu|brn|gry|grn|hzl|oth/
+  }],
+  pid: [{
+    regexp: /\d{9}/
+  }]
+};
+
+export type RequiredKeyTypes = keyof Passport;
+
+export const requiredKeys = Object.keys(validationObject) // ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid'];
 
 export const input = `eyr:2029 byr:1931 hcl:z cid:128
 ecl:amb hgt:150cm iyr:2015 pid:148714704
