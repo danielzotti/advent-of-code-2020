@@ -2,7 +2,6 @@ import React from 'react';
 import {
   input,
   keyValueRegexp,
-  Passport,
   PassportValidation,
   requiredKeys,
   RequiredKeyTypes,
