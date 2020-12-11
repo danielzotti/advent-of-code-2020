@@ -1,3 +1,7 @@
+export const inputTest = `BFFFBBFRRR
+FFFBBBFRRR
+BBFFBBFRLL`;
+
 export const input = `BFBBFFFLRR
 FFBFBBBLLL
 FBFBFBFLLL

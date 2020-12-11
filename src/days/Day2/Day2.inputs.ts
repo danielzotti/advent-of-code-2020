@@ -1,3 +1,7 @@
+export const inputTest = `1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc`;
+
 export const input = `4-5 t: ftttttrvts
 7-8 k: kkkkkkkf
 4-6 k: gqjkkk

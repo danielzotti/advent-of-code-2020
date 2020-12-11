@@ -1,3 +1,10 @@
+export const inputTest = `1721
+979
+366
+299
+675
+1456`;
+
 export const input = `1630
 1801
 1917
@@ -197,4 +204,4 @@ export const input = `1630
 1849
 1065
 1927
-1525`
+1525`;
