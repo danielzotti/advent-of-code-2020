@@ -25,7 +25,7 @@ const countYesAnswersForEveryone = (inputItems: Array<string>) => {
     }, ['']);
   });
   const countYesIntersection = yesIntersectionList.reduce((acc, el) => acc + el.length, 0);
-  console.log({ yesIntersectionList, countYesIntersection });
+  // console.log({ yesIntersectionList, countYesIntersection });
   return countYesIntersection;
 };
 

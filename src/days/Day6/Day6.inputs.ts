@@ -1,4 +1,4 @@
-const inputTest = `abc
+export const inputTest = `abc
 
 a
 b
@@ -12,7 +12,7 @@ a
 a
 a
 
-b`.split(/\n{2}/);
+b`;
 
 
 export const input = `niujdxegbrtlq

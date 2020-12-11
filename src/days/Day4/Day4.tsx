@@ -36,7 +36,7 @@ const checkPassportsKeysOnly = (items: Array<string>) => {
 };
 
 const isPassportValid = (item: string) => {
-  let matches = item.matchAll(keyValueRegexp);
+  const matches = item.matchAll(keyValueRegexp);
   const correctKeyListWithNull = [...matches].map(match => {
     if(!match.groups) {
       return [];
