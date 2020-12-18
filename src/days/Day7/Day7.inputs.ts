@@ -1,10 +1,10 @@
-export interface Bag {
-  key: string;
-  value?: number;
-  children: Array<Bag>;
+export interface BagTree {
+  [key: string]: {
+    [child: string]: number
+  } | {};
 }
 
-export const bagToFind = 'shiny gold';
+export const shinyGoldBag = 'shiny gold';
 
 export const inputTest = `light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -16,6 +16,13 @@ vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
 faded blue bags contain no other bags.
 dotted black bags contain no other bags.`;
 
+export const inputTest2 = `shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags.`
 
 export const input = `shiny purple bags contain 2 pale blue bags, 1 wavy fuchsia bag, 5 pale salmon bags.
 bright gray bags contain 4 dotted coral bags.
