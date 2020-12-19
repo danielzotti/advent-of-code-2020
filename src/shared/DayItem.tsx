@@ -26,8 +26,7 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
                   target="_blank">instructions</a>
         <textarea className="day__input__value"
                   readOnly
-                  value={ props.inputText }>
-</textarea>
+                  value={ props.inputText } />
       </div>
       <div className="day__results">
         <ResultItem part="A">

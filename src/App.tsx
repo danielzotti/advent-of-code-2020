@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.scss';
 import { Day1 } from './days/Day1/Day1';
 import { Day2 } from './days/Day2/Day2';
@@ -8,18 +9,32 @@ import { Day5 } from './days/Day5/Day5';
 import { Day6 } from './days/Day6/Day6';
 import { Day7 } from './days/Day7/Day7';
 
+const lastDay = 7;
+const days = Array.from(Array(lastDay).keys());
+
 function App() {
   return (
-    <div className="App">
-      <h1>Advent of code</h1>
-      <Day1 />
-      <Day2 />
-      <Day3 />
-      <Day4 />
-      <Day5 />
-      <Day6 />
-      <Day7 />
-    </div>
+    <Router>
+      <div className="App">
+        <h1>Advent of code</h1>
+        <ul>
+          { days.map(d => (
+            <li key={d}>
+              <Link to={ `/day/${ d + 1 }` }>Day { d + 1 }</Link>
+            </li>
+          )) }
+        </ul>
+
+        <Route exact path="/" component={ Day1 }/>
+        <Route path="/day/1" component={ Day1 }/>
+        <Route path="/day/2" component={ Day2 }/>
+        <Route path="/day/3" component={ Day3 }/>
+        <Route path="/day/4" component={ Day4 }/>
+        <Route path="/day/5" component={ Day5 }/>
+        <Route path="/day/6" component={ Day6 }/>
+        <Route path="/day/7" component={ Day7 }/>
+      </div>
+    </Router>
   );
 }
 
