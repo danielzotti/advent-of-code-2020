@@ -8,8 +8,9 @@ import { Day4 } from './days/Day4/Day4';
 import { Day5 } from './days/Day5/Day5';
 import { Day6 } from './days/Day6/Day6';
 import { Day7 } from './days/Day7/Day7';
+import { Day8 } from './days/Day8/Day8';
 
-const lastDay = 7;
+const lastDay = 8;
 const days = Array.from(Array(lastDay).keys());
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
         <h1>Advent of code</h1>
         <ul>
           { days.map(d => (
-            <li key={d}>
+            <li key={ d }>
               <Link to={ `/day/${ d + 1 }` }>Day { d + 1 }</Link>
             </li>
           )) }
@@ -33,6 +34,7 @@ function App() {
         <Route path="/day/5" component={ Day5 }/>
         <Route path="/day/6" component={ Day6 }/>
         <Route path="/day/7" component={ Day7 }/>
+        <Route path="/day/8" component={ Day8 }/>
       </div>
     </Router>
   );
