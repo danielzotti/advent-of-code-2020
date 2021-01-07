@@ -15,6 +15,7 @@ export interface ExecutionStatus {
   accumulator: number;
   nextInstructionId: number | null;
   stack: Array<Instruction>;
+  status: 'EXECUTING' | 'END' | 'LOOP';
 }
 
 export const inputTest = `nop +0

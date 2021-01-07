@@ -37,16 +37,24 @@ const parseInstructions = (inputItems: Array<string>) => {
 };
 
 const execCode = (instructions: Instructions, instructionId: number = 0, accumulator: number = 0, stack: Array<Instruction> = []): ExecutionStatus => {
-  const currentInstruction: Instruction = instructions[instructionId];
-  if(currentInstruction.isAlreadyExecuted) {
-    return { accumulator, nextInstructionId: null, stack } as ExecutionStatus;
+  let currentInstruction: Instruction = { ...instructions[instructionId] };
+  let currentInstructionList = { ...instructions };
+
+  if(!currentInstruction || currentInstruction.isAlreadyExecuted) {
+    // console.log('---------------LOOP--------------');
+    return { accumulator, nextInstructionId: null, status: 'LOOP', stack } as ExecutionStatus;
   }
-  instructions[instructionId] = { ...currentInstruction, isAlreadyExecuted: true };
+
+  currentInstruction = { ...currentInstruction, isAlreadyExecuted: true };
+  currentInstructionList = { ...currentInstructionList, [currentInstruction.id]: currentInstruction };
+
   let nextInstruction: ExecutionStatus = {
     accumulator,
     nextInstructionId: currentInstruction.id + 1,
+    status: 'EXECUTING',
     stack: [...stack, currentInstruction]
   };
+
   switch(currentInstruction.operation) {
     case 'acc':
       nextInstruction = { ...nextInstruction, accumulator: accumulator + currentInstruction.argument };
@@ -56,15 +64,50 @@ const execCode = (instructions: Instructions, instructionId: number = 0, accumul
       break;
   }
 
-  return execCode(instructions, nextInstruction.nextInstructionId as number, nextInstruction.accumulator, nextInstruction.stack);
+  if(currentInstruction.id === Object.keys(currentInstructionList).length - 1) {
+    // console.log('---------------END--------------');
+    return { ...nextInstruction, nextInstructionId: null, status: 'END' } as ExecutionStatus;
+  }
+
+  return execCode(currentInstructionList, nextInstruction.nextInstructionId as number, nextInstruction.accumulator, nextInstruction.stack);
 
 };
 
 const getAccumulatorValue = (inputItems: Array<string>) => {
   const instructions = parseInstructions(inputItems);
   const stack = execCode(instructions);
-  console.log(stack);
   return stack.accumulator;
+};
+
+const getAccumulatorValueAfterFix = (inputItems: Array<string>) => {
+  const instructions = parseInstructions(inputItems);
+
+  let accumulator: number | null = null;
+
+  for(let currentId = 0; currentId < Object.keys(instructions).length; currentId++) {
+
+    const currentInstruction = { ...instructions[currentId] };
+
+    if((currentInstruction.operation === 'nop' && currentInstruction.argument !== 0) || (currentInstruction.operation === 'jmp')) {
+      const changedInstruction: Instruction = {
+        ...currentInstruction,
+        operation: currentInstruction.operation === 'nop' ? 'jmp' : 'nop',
+      } as Instruction;
+
+      const changedInstructions: Instructions = {
+        ...instructions,
+        [currentId]: changedInstruction
+      };
+
+      const stack = execCode(changedInstructions);
+
+      if(stack.status === 'END') {
+        accumulator = stack.accumulator;
+        break;
+      }
+    }
+  }
+  return accumulator;
 };
 
 export const Day8: React.FC = () => {
@@ -73,7 +116,7 @@ export const Day8: React.FC = () => {
     <>
       <DayItem day={ 8 } inputText={ input }>
         <span key="partA">{ getAccumulatorValue(inputItems) }</span>
-        <span key="partB">TODO</span>
+        <span key="partB">{ getAccumulatorValueAfterFix(inputItems) }</span>
       </DayItem>
     </>
   );
