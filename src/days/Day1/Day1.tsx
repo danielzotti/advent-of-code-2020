@@ -1,8 +1,8 @@
 import React from 'react';
-import { input } from './Day1.inputs';
+import { inputTest } from './Day1.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputTextRows = input.split('\n').map(i => parseInt(i));
+const inputTextRows = inputTest.split('\n').map(i => parseInt(i));
 
 const ifSumOf2NumbersIs2020GetProduct = (numbers: Array<number>) => {
   let data;
@@ -36,7 +36,7 @@ export const Day1: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 1 } inputText={input}>
+      <DayItem day={ 1 } inputText={inputTest}>
         <span key="partA">{ ifSumOf2NumbersIs2020GetProduct(inputTextRows) }</span>
         <span key="partB">{ ifSumOf3NumbersIs2020GetProduct(inputTextRows) }</span>
       </DayItem>

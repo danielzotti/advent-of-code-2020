@@ -1,5 +1,5 @@
 import React from 'react';
-import { input } from './Day2.inputs';
+import { inputTest } from './Day2.inputs';
 import { DayItem } from '../../shared/DayItem';
 
 export interface PasswordItem {
@@ -9,7 +9,7 @@ export interface PasswordItem {
   text: string
 }
 
-const inputTextRows = input.split('\n');
+const inputTextRows = inputTest.split('\n');
 const inputItems = inputTextRows.map(item => {
   const parts = item.split(' ');
 
@@ -43,7 +43,7 @@ export const Day2: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 2 } inputText={input}>
+      <DayItem day={ 2 } inputText={inputTest}>
         <span key="partA">{ inputItems.reduce((acc, item) => {
           return isPasswordAOk(item) ? acc + 1 : acc;
         }, 0) }</span>

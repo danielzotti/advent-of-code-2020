@@ -1,12 +1,11 @@
 import React from 'react';
-import { ExecutionStatus, input, inputTest, Instruction, Instructions, Operations } from './Day8.inputs';
+import { ExecutionStatus, inputTest, Instruction, Instructions, Operations } from './Day8.inputs';
 import { DayItem } from '../../shared/DayItem';
 
 // Regular Expressions to read the rules
 const regexp = /^(?<operation>.{3}) (?<argument>(\+|-)\d+)$/gm;
 
-const inputItems = input.split('\n');
-// const inputItems = inputTest.split('\n');
+const inputItems = inputTest.split('\n');
 
 const parseInstructions = (inputItems: Array<string>) => {
   const instructions: Instructions = inputItems.reduce((instructions, instruction, index): Instructions => {
@@ -114,7 +113,7 @@ export const Day8: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 8 } inputText={ input }>
+      <DayItem day={ 8 } inputText={ inputTest }>
         <span key="partA">{ getAccumulatorValue(inputItems) }</span>
         <span key="partB">{ getAccumulatorValueAfterFix(inputItems) }</span>
       </DayItem>

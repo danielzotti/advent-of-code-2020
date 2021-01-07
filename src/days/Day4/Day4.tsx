@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  input,
+  inputTest,
   keyValueRegexp,
   PassportValidation,
   requiredKeys,
@@ -9,7 +9,7 @@ import {
 } from './Day4.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputItems = input.split(/\n{2}/);
+const inputItems = inputTest.split(/\n{2}/);
 
 const isPassportKeysValid = (item: string) => {
   let matches = item.matchAll(keyValueRegexp);
@@ -85,7 +85,7 @@ export const Day4: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 4 } inputText={ input }>
+      <DayItem day={ 4 } inputText={ inputTest }>
         <span key="partA">{ checkPassportsKeysOnly(inputItems) }</span>
         <span key="partB">{ checkPassports(inputItems) }</span>
       </DayItem>

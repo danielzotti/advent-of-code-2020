@@ -1,8 +1,8 @@
 import React from 'react';
-import { input, inputSlopes, SlopeConfig } from './Day3.inputs';
+import { inputTest, inputSlopes, SlopeConfig } from './Day3.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputTextRows = input.split('\n');
+const inputTextRows = inputTest.split('\n');
 
 
 const inputItems = inputTextRows.map(row => [...row.split('')]);
@@ -27,7 +27,7 @@ export const Day3: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 3 } inputText={ input }>
+      <DayItem day={ 3 } inputText={ inputTest }>
         <span key="partA">{ countTrees(inputItems, 3) }</span>
         <span key="partB">{ testSlopes(inputSlopes, inputItems) }</span>
       </DayItem>

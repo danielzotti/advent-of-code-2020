@@ -1,14 +1,12 @@
 import React from 'react';
-import { shinyGoldBag, BagTree, input, inputTest2, inputTest } from './Day7.inputs';
+import { shinyGoldBag, BagTree, inputTest } from './Day7.inputs';
 import { DayItem } from '../../shared/DayItem';
 
 // Regular Expressions to read the rules
 const regexpForRule = /(?<color>.+) bags contain (?<values>.+ bags?,?)\./gm;
 const regexpForInternalValues = /no other bags|(?<quantity>\d+) (?<innerColor>.+) bags?/gm;
 
-const inputItems = input.split('\n');
-// const inputItems = inputTest.split('\n');
-// const inputItems = inputTest2.split('\n');
+const inputItems = inputTest.split('\n');
 
 const bagTree = (inputItems: Array<string>) => {
   const bagTree: BagTree = inputItems.reduce((tree, rule) => {
@@ -77,7 +75,7 @@ export const Day7: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 7 } inputText={ input }>
+      <DayItem day={ 7 } inputText={ inputTest }>
         <span key="partA">{ countBagsWhichHaveShinyGoldInside(inputItems) }</span>
         <span key="partB">{ countBagsInsideShinyGold(inputItems) }</span>
       </DayItem>

@@ -1,12 +1,11 @@
 import React from 'react';
-import { input, inputTest, preambleLength, preambleLengthTest } from './Day9.inputs';
+import { inputTest, preambleLength, preambleLengthTest } from './Day9.inputs';
 import { DayItem } from '../../shared/DayItem';
 
 // Regular Expressions to read the rules
 const regexp = /^(?<operation>.{3}) (?<argument>(\+|-)\d+)$/gm;
 
-// const inputItems: Array<number> = inputTest.split('\n').map(el => parseInt(el, 10));
-const inputItems: Array<number> = input.split('\n').map(el => parseInt(el, 10));
+const inputItems: Array<number> = inputTest.split('\n').map(el => parseInt(el, 10));
 
 const checkSumInPreamble = (currentPosition: number, inputItems: Array<number>, preambleLength: number): number => {
   const preamble = inputItems.slice(currentPosition, currentPosition + preambleLength);

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  input
+  inputTest
 } from './Day6.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputItems = input.split(/\n{2}/);
+const inputItems = inputTest.split(/\n{2}/);
 
 const countYesAnswersForAnyone = (inputItems: Array<string>) => {
   const answersList = inputItems.map(el => [...new Set(el.split('').filter(i => i !== '\n'))]);
@@ -33,7 +33,7 @@ export const Day6: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 6 } inputText={ input }>
+      <DayItem day={ 6 } inputText={ inputTest }>
         <span key="partA">{ countYesAnswersForAnyone(inputItems) }</span>
         <span key="partB">{ countYesAnswersForEveryone(inputItems) }</span>
       </DayItem>
