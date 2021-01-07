@@ -29,8 +29,32 @@ const checkSumInPreamble = (currentPosition: number, inputItems: Array<number>, 
 };
 
 const getFirstWrongNumber = (inputItems: Array<number>) => {
-  // return checkSumInPreamble(0, inputItems, preambleLengthTest);
   return checkSumInPreamble(0, inputItems, preambleLength);
+};
+
+const firstWrongNumber = getFirstWrongNumber(inputItems);
+
+const checkSumInContiguousSet = (wrongNumber: number, inputItems: Array<number>) => {
+  for(let start = 0; start < inputItems.length; start++) {
+    for(let end = start + 1; end < inputItems.length; end++) {
+      const currentSet = inputItems.slice(start, end);
+      const sum = currentSet.reduce((total, el) => total += el, 0);
+      // console.log(start, end, currentSet, sum, wrongNumber);
+      if(sum === wrongNumber) {
+        return currentSet;
+      }
+      if(sum > wrongNumber) {
+        break;
+      }
+    }
+  }
+  return null;
+}
+
+const getContiguousSetEqualsToWrongNumber = (wrongNumber: number, inputItems: Array<number>) => {
+  const set: Array<number> | null= checkSumInContiguousSet(wrongNumber, inputItems)
+  const orderedSet = set?.sort((a, b) => a >= b ? 1 : -1);
+  return orderedSet ? orderedSet[0] + orderedSet[orderedSet.length - 1] : null;
 };
 
 export const Day9: React.FC = () => {
@@ -38,8 +62,8 @@ export const Day9: React.FC = () => {
   return (
     <>
       <DayItem day={ 9 } inputText={ inputTest }>
-        <span key="partA"> { getFirstWrongNumber(inputItems) }</span>
-        <span key="partB"></span>
+        <span key="partA"> { firstWrongNumber }</span>
+        <span key="partB"> { getContiguousSetEqualsToWrongNumber(firstWrongNumber, inputItems) }</span>
       </DayItem>
     </>
   );
