@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   inputTest,
 } from './Day5.inputs';
 import { DayItem } from '../../shared/DayItem';
-
-const inputItems = inputTest.split('\n');
 
 const getSeatId = (code: string) => {
   const letters = code.split('');
@@ -51,10 +49,12 @@ export const Day5: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 5 } inputText={ inputTest }>
-        <span key="partA">{ getMaxSeatId(inputItems) }</span>
-        <span key="partB">{ getMySeatId(inputItems) }</span>
-      </DayItem>
+      <DayItem
+        day={ 5 }
+        inputText={ inputTest }
+        partA={ getMaxSeatId }
+        partB={ getMySeatId }
+      />
     </>
   );
 };

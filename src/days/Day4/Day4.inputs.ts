@@ -1,5 +1,3 @@
-export const keyValueRegexp = /(?<key>\S+):(?<value>\S+)+\s?/gm;
-
 export interface PassportValidation {
   min?: number,
   max?: number,
@@ -15,6 +13,10 @@ export interface Passport {
   ecl: Array<PassportValidation>,
   pid: Array<PassportValidation>
 }
+
+export type RequiredKeyTypes = keyof Passport;
+
+export const keyValueRegexp = /(?<key>\S+):(?<value>\S+)+\s?/gm;
 
 export const validationObject: Passport = {
   byr: [{
@@ -54,8 +56,6 @@ export const validationObject: Passport = {
     regexp: /^\d{9}$/
   }]
 };
-
-export type RequiredKeyTypes = keyof Passport;
 
 export const requiredKeys = Object.keys(validationObject); // ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid'];
 

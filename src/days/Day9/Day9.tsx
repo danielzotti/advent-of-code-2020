@@ -1,11 +1,10 @@
-import React from 'react';
-import { inputTest, preambleLength, preambleLengthTest } from './Day9.inputs';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { inputTest, preambleLengthTest } from './Day9.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-// Regular Expressions to read the rules
-const regexp = /^(?<operation>.{3}) (?<argument>(\+|-)\d+)$/gm;
-
-const inputItems: Array<number> = inputTest.split('\n').map(el => parseInt(el, 10));
+const customParseInput = (input: string) => {
+  return input.split('\n').map(i => parseInt(i));
+};
 
 const checkSumInPreamble = (currentPosition: number, inputItems: Array<number>, preambleLength: number): number => {
   const preamble = inputItems.slice(currentPosition, currentPosition + preambleLength);
@@ -27,11 +26,6 @@ const checkSumInPreamble = (currentPosition: number, inputItems: Array<number>, 
   return checkSumInPreamble(currentPosition + 1, inputItems, preambleLength);
 };
 
-const getFirstWrongNumber = (inputItems: Array<number>) => {
-  return checkSumInPreamble(0, inputItems, preambleLength);
-};
-
-const firstWrongNumber = getFirstWrongNumber(inputItems);
 
 const checkSumInContiguousSet = (wrongNumber: number, inputItems: Array<number>) => {
   for(let start = 0; start < inputItems.length; start++) {
@@ -48,21 +42,57 @@ const checkSumInContiguousSet = (wrongNumber: number, inputItems: Array<number>)
     }
   }
   return null;
-}
+};
 
 const getContiguousSetEqualsToWrongNumber = (wrongNumber: number, inputItems: Array<number>) => {
-  const set: Array<number> | null= checkSumInContiguousSet(wrongNumber, inputItems)
+  const set: Array<number> | null = checkSumInContiguousSet(wrongNumber, inputItems);
   const orderedSet = set?.sort((a, b) => a >= b ? 1 : -1);
   return orderedSet ? orderedSet[0] + orderedSet[orderedSet.length - 1] : null;
 };
 
 export const Day9: React.FC = () => {
+  const [preambleLength, setPreambleLength] = useState(preambleLengthTest);
+
+  const partA = (inputItems: Array<number>, preambleLength: number = preambleLengthTest) => {
+    return preambleLength ? checkSumInPreamble(0, inputItems, preambleLength) : null;
+  };
+
+  const partB = (inputItems: Array<number>) => {
+    const firstWrongNumber = partA(inputItems);
+    return firstWrongNumber ? getContiguousSetEqualsToWrongNumber(firstWrongNumber, inputItems) : null;
+  };
+
+  useEffect(() => {
+    console.log(preambleLength);
+  }, [preambleLength]);
+
+  const onPreambleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if(!value || isNaN(parseInt(value))) {
+      return;
+    }
+    setPreambleLength(parseInt(value));
+  };
 
   return (
     <>
-      <DayItem day={ 9 } inputText={ inputTest }>
-        <span key="partA"> { firstWrongNumber }</span>
-        <span key="partB"> { getContiguousSetEqualsToWrongNumber(firstWrongNumber, inputItems) }</span>
+      <DayItem
+        day={ 9 }
+        customParseInput={ customParseInput }
+        inputText={ inputTest }
+        partA={ partA }
+        partB={ partB }
+      >
+        <div>
+          <span>preamble length value:</span>
+          <input
+            value={ preambleLength }
+            onChange={ onPreambleChange }
+            onClick={ (e: any) => {
+              e.target.select()
+            } }
+          />
+        </div>
       </DayItem>
     </>
   );

@@ -4,16 +4,18 @@ import {
 } from './Day6.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputItems = inputTest.split(/\n{2}/);
+const parseInput = (input: string) => {
+  return input.split(/\n{2}/);
+};
 
-const countYesAnswersForAnyone = (inputItems: Array<string>) => {
+const partA = (inputItems: Array<string>) => {
   const answersList = inputItems.map(el => [...new Set(el.split('').filter(i => i !== '\n'))]);
   const countYes = answersList.reduce((acc, el) => acc + el.length, 0);
   // console.log({ answersList, count: countYes });
   return countYes;
 };
 
-const countYesAnswersForEveryone = (inputItems: Array<string>) => {
+const partB = (inputItems: Array<string>) => {
   const groups: Array<Array<string>> = inputItems.map(el => el.split('\n'));
   const yesIntersectionList: Array<Array<string>> = groups.map(g => {
     return g.reduce((acc, el) => {
@@ -33,10 +35,13 @@ export const Day6: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 6 } inputText={ inputTest }>
-        <span key="partA">{ countYesAnswersForAnyone(inputItems) }</span>
-        <span key="partB">{ countYesAnswersForEveryone(inputItems) }</span>
-      </DayItem>
+      <DayItem
+        day={ 6 }
+        inputText={ inputTest }
+        customParseInput={ parseInput }
+        partA={ partA }
+        partB={ partB }
+      />
     </>
   );
 };

@@ -5,8 +5,6 @@ import { DayItem } from '../../shared/DayItem';
 // Regular Expressions to read the rules
 const regexp = /^(?<operation>.{3}) (?<argument>(\+|-)\d+)$/gm;
 
-const inputItems = inputTest.split('\n');
-
 const parseInstructions = (inputItems: Array<string>) => {
   const instructions: Instructions = inputItems.reduce((instructions, instruction, index): Instructions => {
 
@@ -72,13 +70,13 @@ const execCode = (instructions: Instructions, instructionId: number = 0, accumul
 
 };
 
-const getAccumulatorValue = (inputItems: Array<string>) => {
+const partA = (inputItems: Array<string>) => {
   const instructions = parseInstructions(inputItems);
   const stack = execCode(instructions);
   return stack.accumulator;
 };
 
-const getAccumulatorValueAfterFix = (inputItems: Array<string>) => {
+const partB = (inputItems: Array<string>) => {
   const instructions = parseInstructions(inputItems);
 
   let accumulator: number | null = null;
@@ -113,10 +111,12 @@ export const Day8: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 8 } inputText={ inputTest }>
-        <span key="partA">{ getAccumulatorValue(inputItems) }</span>
-        <span key="partB">{ getAccumulatorValueAfterFix(inputItems) }</span>
-      </DayItem>
+      <DayItem
+        day={ 8 }
+        inputText={ inputTest }
+        partA={ partA }
+        partB={ partB }
+      />
     </>
   );
 };

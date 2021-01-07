@@ -9,7 +9,9 @@ import {
 } from './Day4.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputItems = inputTest.split(/\n{2}/);
+const parseInput = (input: string) => {
+  return input.split(/\n{2}/);
+};
 
 const isPassportKeysValid = (item: string) => {
   let matches = item.matchAll(keyValueRegexp);
@@ -26,13 +28,6 @@ const isPassportKeysValid = (item: string) => {
   //   requiredKeys: requiredKeys.sort()
   // });
   return isValid;
-};
-
-const checkPassportsKeysOnly = (items: Array<string>) => {
-  return items.reduce((acc, item) => {
-    acc += isPassportKeysValid(item) ? 1 : 0;
-    return acc;
-  }, 0);
 };
 
 const isPassportValid = (item: string) => {
@@ -74,21 +69,31 @@ const isPassportValid = (item: string) => {
   return isValid;
 };
 
-const checkPassports = (items: Array<string>) => {
+const partA = (items: Array<string>) => {
+  return items.reduce((acc, item) => {
+    acc += isPassportKeysValid(item) ? 1 : 0;
+    return acc;
+  }, 0);
+};
+
+const partB = (items: Array<string>) => {
   return items.reduce((acc, item) => {
     acc += isPassportValid(item) ? 1 : 0;
     return acc;
   }, 0);
-};
+}
 
 export const Day4: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 4 } inputText={ inputTest }>
-        <span key="partA">{ checkPassportsKeysOnly(inputItems) }</span>
-        <span key="partB">{ checkPassports(inputItems) }</span>
-      </DayItem>
+      <DayItem
+        day={ 4 }
+        inputText={ inputTest }
+        customParseInput={ parseInput}
+        partA={partA}
+        partB={partB}
+      />
     </>
   );
 };

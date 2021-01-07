@@ -6,8 +6,6 @@ import { DayItem } from '../../shared/DayItem';
 const regexpForRule = /(?<color>.+) bags contain (?<values>.+ bags?,?)\./gm;
 const regexpForInternalValues = /no other bags|(?<quantity>\d+) (?<innerColor>.+) bags?/gm;
 
-const inputItems = inputTest.split('\n');
-
 const bagTree = (inputItems: Array<string>) => {
   const bagTree: BagTree = inputItems.reduce((tree, rule) => {
 
@@ -46,7 +44,13 @@ const bagTree = (inputItems: Array<string>) => {
   return bagTree;
 };
 
-const countBagsWhichHaveShinyGoldInside = (inputItems: Array<string>) => {
+const countInnerBags = (bag: string, bags: BagTree): number => {
+  return bags[bag] ? Object.entries(bags[bag]).reduce((count, [innerBagKey, quantity]) => {
+    return count + quantity * countInnerBags(innerBagKey, bags);
+  }, 1) : 1;
+};
+
+const partA = (inputItems: Array<string>) => {
 
   const bags: BagTree = bagTree(inputItems);
 
@@ -60,13 +64,7 @@ const countBagsWhichHaveShinyGoldInside = (inputItems: Array<string>) => {
 
 };
 
-const countInnerBags = (bag: string, bags: BagTree): number => {
-  return bags[bag] ? Object.entries(bags[bag]).reduce((count, [innerBagKey, quantity]) => {
-    return count + quantity * countInnerBags(innerBagKey, bags);
-  }, 1) : 1;
-};
-
-const countBagsInsideShinyGold = (inputItems: Array<string>) => {
+const partB = (inputItems: Array<string>) => {
   const bags = bagTree(inputItems);
   return countInnerBags(shinyGoldBag, bags) - 1;
 };
@@ -75,10 +73,12 @@ export const Day7: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 7 } inputText={ inputTest }>
-        <span key="partA">{ countBagsWhichHaveShinyGoldInside(inputItems) }</span>
-        <span key="partB">{ countBagsInsideShinyGold(inputItems) }</span>
-      </DayItem>
+      <DayItem
+        day={ 7 }
+        inputText={ inputTest }
+        partA={ partA }
+        partB={ partB }
+      />
     </>
   );
 };

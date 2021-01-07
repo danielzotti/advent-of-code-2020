@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ResultItem } from './ResultItem';
-
 
 export interface DayItemProps {
   day: number;
-  children?: any;
   inputText: string;
+  customParseInput?: (text: string) => Array<any>;
+  partA?: (items: Array<any>) => any;
+  partB?: (items: Array<any>) => any;
+  children?: any;
 }
 
 export const DayItem: React.FC<DayItemProps> = (props) => {
 
-  const getComponent = (key: string) => {
-    return props.children.filter((comp: React.ReactElement) => {
-      return comp.key === key;
-    });
+  const parseInput = props.customParseInput ? props.customParseInput : (input: string) => {
+    return input.split('\n');
   };
+
+  const defaultPartFunction = (part: string) => `You must set a function for Part ${ part }`;
+
+  const [inputText, setInputText] = useState(props.inputText);
+  const [inputItems, setInputItems] = useState(parseInput(props.inputText));
+  const [resultPartA, setResultPartA] = useState(props.partA ? props.partA(inputItems) : defaultPartFunction('A'));
+  const [resultPartB, setResultPartB] = useState(props.partB ? props.partB(inputItems) : defaultPartFunction('B'));
+
+  const onInputTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setInputItems(parseInput(newText));
+    setInputText(newText);
+  };
+
+  useEffect(() => {
+    if(props.partA) {
+      console.log('Updating part A...')
+      setResultPartA(props.partA(inputItems));
+    }
+    if(props.partB) {
+      console.log('Updating part B...')
+      setResultPartB(props.partB(inputItems));
+    }
+  }, [inputItems]);
 
   return (
     <div className="DayItem">
@@ -25,16 +49,17 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
                   rel="noreferrer"
                   target="_blank">instructions</a>
         <textarea className="day__input__value"
-                  readOnly
-                  value={ props.inputText } />
+                  onChange={ onInputTextChange }
+                  value={ inputText }/>
+        { props.children }
       </div>
       <div className="day__results">
         <ResultItem part="A">
-          { getComponent('partA') }
+          { resultPartA }
         </ResultItem>
 
         <ResultItem part="B">
-          { getComponent('partB') }
+          { resultPartB }
         </ResultItem>
       </div>
     </div>

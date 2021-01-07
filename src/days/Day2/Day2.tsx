@@ -1,16 +1,8 @@
 import React from 'react';
-import { inputTest } from './Day2.inputs';
+import { inputTest, PasswordItem } from './Day2.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-export interface PasswordItem {
-  min: number,
-  max: number,
-  letter: string,
-  text: string
-}
-
-const inputTextRows = inputTest.split('\n');
-const inputItems = inputTextRows.map(item => {
+const getPolicy = (inputItems: Array<string>) => inputItems.map(item => {
   const parts = item.split(' ');
 
   const [min, max] = parts[0].split('-');
@@ -39,18 +31,28 @@ const isPasswordBOk = (item: PasswordItem) => {
   return (isPosACorrect && !isPosBCorrect) || (!isPosACorrect && isPosBCorrect);  // XOR
 };
 
+const checkPasswordPartA = (items: Array<string>) => {
+  return getPolicy(items).reduce((acc, item) => {
+    return isPasswordAOk(item) ? acc + 1 : acc;
+  }, 0);
+};
+
+const checkPasswordPartB = (items: Array<string>) => {
+  return getPolicy(items).reduce((acc, item) => {
+    return isPasswordBOk(item) ? acc + 1 : acc;
+  }, 0);
+};
+
 export const Day2: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 2 } inputText={inputTest}>
-        <span key="partA">{ inputItems.reduce((acc, item) => {
-          return isPasswordAOk(item) ? acc + 1 : acc;
-        }, 0) }</span>
-        <span key="partB">{ inputItems.reduce((acc, item) => {
-          return isPasswordBOk(item) ? acc + 1 : acc;
-        }, 0) }</span>
-      </DayItem>
+      <DayItem
+        day={ 2 }
+        inputText={ inputTest }
+        partA={ checkPasswordPartA }
+        partB={ checkPasswordPartB }
+      />
     </>
   );
 };

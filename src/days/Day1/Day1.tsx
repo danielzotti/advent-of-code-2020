@@ -2,9 +2,11 @@ import React from 'react';
 import { inputTest } from './Day1.inputs';
 import { DayItem } from '../../shared/DayItem';
 
-const inputTextRows = inputTest.split('\n').map(i => parseInt(i));
+const customParseInput = (input: string) => {
+  return input.split('\n').map(i => parseInt(i));
+};
 
-const ifSumOf2NumbersIs2020GetProduct = (numbers: Array<number>) => {
+const partA = (numbers: Array<number>) => {
   let data;
   for(let i = 0; i < numbers.length; i++) {
     for(let j = 0; j < numbers.length; j++) {
@@ -17,7 +19,7 @@ const ifSumOf2NumbersIs2020GetProduct = (numbers: Array<number>) => {
   return data;
 };
 
-const ifSumOf3NumbersIs2020GetProduct = (numbers: Array<number>) => {
+const partB = (numbers: Array<number>) => {
   let data;
   for(let i = 0; i < numbers.length; i++) {
     for(let j = 0; j < numbers.length; j++) {
@@ -36,10 +38,12 @@ export const Day1: React.FC = () => {
 
   return (
     <>
-      <DayItem day={ 1 } inputText={inputTest}>
-        <span key="partA">{ ifSumOf2NumbersIs2020GetProduct(inputTextRows) }</span>
-        <span key="partB">{ ifSumOf3NumbersIs2020GetProduct(inputTextRows) }</span>
-      </DayItem>
+      <DayItem day={ 1 }
+               inputText={ inputTest }
+               customParseInput={ customParseInput }
+               partA={ partA }
+               partB={ partB }
+      />
     </>
   );
 };

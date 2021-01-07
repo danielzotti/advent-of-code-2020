@@ -1,3 +1,10 @@
+export interface PasswordItem {
+  min: number,
+  max: number,
+  letter: string,
+  text: string
+}
+
 export const inputTest = `1-3 a: abcde
 1-3 b: cdefg
 2-9 c: ccccccccc`;
