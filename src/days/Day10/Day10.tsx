@@ -32,8 +32,51 @@ export const Day10: React.FC = () => {
     return countDifferences[1] && countDifferences[3] ? countDifferences[1] * countDifferences[3] : 0;
   };
 
+  const countSubTree = (items: Array<number>, index: number = 0, memo = {} as { [id: number]: number }): number => {
+
+    if(index in memo) {
+      return memo[index];
+    }
+
+    const currentValue = items[index];
+    // console.log(currentValue);
+    if(index === items.length - 1) {
+      return 1;
+    }
+
+    let total = 0;
+
+    const nextValue = items[index + 1];
+    if(nextValue !== undefined && (nextValue - currentValue <= 3)) {
+      total += countSubTree(items, index + 1, memo);
+    }
+
+    const nextValue2 = items[index + 2];
+    if(nextValue2 !== undefined && (nextValue2 - currentValue <= 3)) {
+      total += countSubTree(items, index + 2, memo);
+    }
+
+    const nextValue3 = items[index + 3];
+    if(nextValue3 !== undefined && nextValue3 - currentValue <= 3) {
+      total += countSubTree(items, index + 3, memo);
+    }
+    memo[index] = total;
+    return total;
+  };
+
   const partB = (inputItems: Array<number>) => {
-    return 'todo';
+    const sortedInputs = inputItems.sort((a, b) => a >= b ? 1 : -1);
+
+    // add built-in joltage adapter
+    const allInputs = [0, ...sortedInputs, (sortedInputs[sortedInputs.length - 1] + 3)];
+
+    const t0 = performance.now();
+    const count = countSubTree(allInputs);
+    const t1 = performance.now();
+    // console.log(`Memoization performance: ${ t1 - t0 }ms`);
+
+    return count;
+
   };
 
 
