@@ -46,7 +46,7 @@ const checkSumInContiguousSet = (wrongNumber: number, inputItems: Array<number>)
 
 const getContiguousSetEqualsToWrongNumber = (wrongNumber: number, inputItems: Array<number>) => {
   const set: Array<number> | null = checkSumInContiguousSet(wrongNumber, inputItems);
-  const orderedSet = set?.sort((a, b) => a >= b ? 1 : -1);
+  const orderedSet = set?.sort((a, b) => a - b);
   return orderedSet ? orderedSet[0] + orderedSet[orderedSet.length - 1] : null;
 };
 

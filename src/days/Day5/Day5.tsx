@@ -35,7 +35,7 @@ const getMaxSeatId = (items: Array<string>) => {
 
 const getMySeatId = (items: Array<string>) => {
   const seatIds = items.map(item => getSeatId(item));
-  const seatIdsSorted = seatIds.sort((a, b) => a > b ? 1 : -1);
+  const seatIdsSorted = seatIds.sort((a, b) => a - b);
   const mySeatId = seatIdsSorted.reduce((acc, el, i, all) => {
     if(acc === 0 && i < all.length) {
       return all[i + 1] - all[i] === 2 ? all[i] + 1 : 0;
