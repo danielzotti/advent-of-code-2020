@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { inputTest, preambleLengthTest } from './Day9.inputs';
 import { DayItem } from '../../shared/DayItem';
 
@@ -51,9 +51,10 @@ const getContiguousSetEqualsToWrongNumber = (wrongNumber: number, inputItems: Ar
 };
 
 export const Day9: React.FC = () => {
-  const [preambleLength, setPreambleLength] = useState(preambleLengthTest);
+  const [preambleLength, setPreambleLength] = useState<number>(preambleLengthTest);
+  const [lastUpdate, setLastUpdate] = useState(new Date().toISOString());
 
-  const partA = (inputItems: Array<number>, preambleLength: number = preambleLengthTest) => {
+  const partA = (inputItems: Array<number>) => {
     return preambleLength ? checkSumInPreamble(0, inputItems, preambleLength) : null;
   };
 
@@ -62,16 +63,10 @@ export const Day9: React.FC = () => {
     return firstWrongNumber ? getContiguousSetEqualsToWrongNumber(firstWrongNumber, inputItems) : null;
   };
 
-  useEffect(() => {
-    console.log(preambleLength);
-  }, [preambleLength]);
-
-  const onPreambleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onPreambleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if(!value || isNaN(parseInt(value))) {
-      return;
-    }
     setPreambleLength(parseInt(value));
+    setLastUpdate(new Date().toISOString());
   };
 
   return (
@@ -82,16 +77,14 @@ export const Day9: React.FC = () => {
         inputText={ inputTest }
         partA={ partA }
         partB={ partB }
+        lastUpdate={ lastUpdate }
       >
         <div>
-          <span>preamble length value:</span>
-          <input
-            value={ preambleLength }
-            onChange={ onPreambleChange }
-            onClick={ (e: any) => {
-              e.target.select()
-            } }
-          />
+          Preamble length:
+          <select value={ preambleLength } onChange={ onPreambleChange }>
+            <option value="5">5 (for test only)</option>
+            <option value="25">25 (for personal puzzle input)</option>
+          </select>
         </div>
       </DayItem>
     </>

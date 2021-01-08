@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { ResultItem } from './ResultItem';
 
 export interface DayItemProps {
@@ -8,6 +8,7 @@ export interface DayItemProps {
   partA?: (items: Array<any>) => any;
   partB?: (items: Array<any>) => any;
   children?: any;
+  lastUpdate?: any;
 }
 
 export const DayItem: React.FC<DayItemProps> = (props) => {
@@ -31,18 +32,17 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
 
   useEffect(() => {
     if(props.partA) {
-      console.log('Updating part A...')
       setResultPartA(props.partA(inputItems));
     }
     if(props.partB) {
-      console.log('Updating part B...')
       setResultPartB(props.partB(inputItems));
     }
-  }, [inputItems]);
+  }, [inputItems, props.lastUpdate]);
 
   return (
     <div className="DayItem">
-      <h3>Day{ props.day }</h3>
+      <h3>Day{ props.day } </h3>
+      {/*<h6>{ props.lastUpdate }</h6>*/}
 
       <div className="day__input">
         Input: <a href={ `https://adventofcode.com/2020/day/${ props.day }` }
