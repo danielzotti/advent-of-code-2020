@@ -10,8 +10,9 @@ import { Day6 } from './days/Day6/Day6';
 import { Day7 } from './days/Day7/Day7';
 import { Day8 } from './days/Day8/Day8';
 import { Day9 } from './days/Day9/Day9';
+import { Day10 } from './days/Day10/Day10';
 
-const lastDay = 9;
+const lastDay = 10;
 const days = Array.from(Array(lastDay).keys());
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/day/7" component={ Day7 }/>
         <Route path="/day/8" component={ Day8 }/>
         <Route path="/day/9" component={ Day9 }/>
+        <Route path="/day/10" component={ Day10 }/>
       </div>
     </Router>
   );
