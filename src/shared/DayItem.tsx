@@ -41,7 +41,7 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
 
   return (
     <div className="DayItem">
-      <h3>Day{ props.day } </h3>
+      <h3>Day { props.day } </h3>
       {/*<h6>{ props.lastUpdate }</h6>*/}
 
       <div className="day__input">

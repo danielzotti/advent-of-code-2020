@@ -82,7 +82,7 @@ export const Day9: React.FC = () => {
         <div>
           Preamble length:
           <select value={ preambleLength } onChange={ onPreambleChange }>
-            <option value="5">5 (for test only)</option>
+            <option value="5">5 (for example only)</option>
             <option value="25">25 (for personal puzzle input)</option>
           </select>
         </div>
