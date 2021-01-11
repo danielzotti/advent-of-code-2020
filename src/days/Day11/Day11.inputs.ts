@@ -1,5 +1,10 @@
 export type Seat = 'L' | '.' | '#' | undefined;
 
+export interface AdjacentSeatPosition {
+  row: number;
+  col: number;
+}
+
 export const inputTest = `L.LL.LL.LL
 LLLLLLL.LL
 L.L.L..L..

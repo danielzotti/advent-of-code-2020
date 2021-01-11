@@ -1,12 +1,12 @@
 import React from 'react';
-import { inputTest, Seat } from './Day11.inputs';
+import { AdjacentSeatPosition, inputTest, Seat } from './Day11.inputs';
 import { DayItem } from '../../shared/DayItem';
 
 const customParseInput = (input: string) => {
   return input.split('\n').map(i => i.split(''));
 };
 
-const adjacentSeatsPositions = [
+const adjacentSeatsPositions: Array<AdjacentSeatPosition> = [
   { row: 0, col: 1 },
   { row: 0, col: -1 },
   { row: 1, col: 0 },
@@ -25,46 +25,30 @@ const getSeatValue = (arr: Array<Array<any>>, row: number, col: number): Seat =>
   }
 };
 
-const shuffleSeats = (disposition: Array<Array<string>>): Array<Array<string>> => {
-  console.log('------- shuffleSeats ----------');
-
-  const currentDisposition = [...disposition];
-  const previousDisposition = [...disposition];
-
-  let aSeatHasChanged = false;
-
-  for(let row = 0; row < previousDisposition.length; row++) {
-
-    for(let col = 0; col < previousDisposition.length; col++) {
-
-      const currentSeat = getSeatValue(previousDisposition, row, col) as string;
-      // currentDisposition[row][col] = currentSeat;
+const shuffleSeats = (disposition: Array<Array<string>>, adjacentSeats: Array<AdjacentSeatPosition>): Array<Array<string>> => {
+  const newDisposition = disposition.map((row, rowIndex, previousDisposition) =>
+    row.map((col, colIndex) => {
+      const currentSeat = getSeatValue(previousDisposition, rowIndex, colIndex) as string;
       if(currentSeat === '.') {
-        continue;
+        return col;
       }
-      let totalAdjacentOccupied = 0;
-      for(let i = 0; i < adjacentSeatsPositions.length; i++) {
-        const adj = adjacentSeatsPositions[i];
-        const adjSeat = getSeatValue(previousDisposition, row + adj.row, col + adj.col);
-        if(adjSeat === '#') {
-          totalAdjacentOccupied++;
-        }
-      }
+      const totalAdjacentOccupied = adjacentSeats.reduce((total, adjacentSeat) => {
+        const adjSeat = getSeatValue(previousDisposition, rowIndex + adjacentSeat.row, colIndex + adjacentSeat.col);
+        return adjSeat === '#' ? (total + 1) : total;
+      }, 0);
 
       if(currentSeat === 'L' && totalAdjacentOccupied === 0) {
-        currentDisposition[row][col] = '#';
-        aSeatHasChanged = true;
+        return '#';
       } else if(currentSeat === '#' && totalAdjacentOccupied >= 4) {
-        currentDisposition[row][col] = 'L';
-        aSeatHasChanged = true;
+        return 'L';
       }
-    }
-  }
-  console.log({ shuffle: currentDisposition });
-  if(!aSeatHasChanged) {
-    return currentDisposition;
-  }
-  return [...shuffleSeats([...currentDisposition])];
+      return col;
+    })
+  );
+
+  const aSeatHasChanged = JSON.stringify(disposition) !== JSON.stringify(newDisposition);
+
+  return aSeatHasChanged ? [...shuffleSeats([...newDisposition], adjacentSeats)] : newDisposition;
 };
 
 const countOccupiedSeats = (inputItems: Array<Array<string>>) => {
@@ -76,10 +60,8 @@ const countOccupiedSeats = (inputItems: Array<Array<string>>) => {
 };
 
 const partA = (inputItems: Array<Array<string>>) => {
-  const newSeats = shuffleSeats(inputItems);
-  const occupiedSeatsCount = countOccupiedSeats(newSeats);
-  console.log({ inputItems, newSeats, occupiedSeatsCount });
-  return occupiedSeatsCount;
+  const newSeats = shuffleSeats(inputItems, adjacentSeatsPositions);
+  return countOccupiedSeats(newSeats);
 };
 
 const partB = (inputItems: Array<Array<string>>) => {
