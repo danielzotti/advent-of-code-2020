@@ -8,7 +8,6 @@ export interface DayItemProps {
   partA?: (items: Array<any>) => any;
   partB?: (items: Array<any>) => any;
   children?: any;
-  lastUpdate?: any;
 }
 
 export const DayItem: React.FC<DayItemProps> = (props) => {
@@ -17,12 +16,11 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
     return input.split('\n');
   };
 
-  const defaultPartFunction = (part: string) => `You must set a function for Part ${ part }`;
-
   const [inputText, setInputText] = useState(props.inputText);
   const [inputItems, setInputItems] = useState(parseInput(props.inputText));
-  const [resultPartA, setResultPartA] = useState(props.partA ? props.partA(inputItems) : defaultPartFunction('A'));
-  const [resultPartB, setResultPartB] = useState(props.partB ? props.partB(inputItems) : defaultPartFunction('B'));
+  const [resultPartA, setResultPartA] = useState();
+  const [resultPartB, setResultPartB] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onInputTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -30,20 +28,22 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
     setInputText(newText);
   };
 
-  useEffect(() => {
-    if(props.partA) {
-      setResultPartA(props.partA(inputItems));
+
+  const run = (part: 'A' | 'B') => {
+    setIsLoading(true);
+    if(part === 'A') {
+      setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part ${ part }`);
     }
-    if(props.partB) {
-      setResultPartB(props.partB(inputItems));
+    if(part === 'B') {
+      setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part ${ part }`);
     }
-  }, [inputItems, props.lastUpdate]);
+    setIsLoading(false);
+  };
 
   return (
     <div className="DayItem">
-      <h3>Day { props.day } </h3>
-      {/*<h6>{ props.lastUpdate }</h6>*/}
 
+      <h3>Day { props.day } </h3>
       <div className="day__input">
         Input: <a href={ `https://adventofcode.com/2020/day/${ props.day }` }
                   rel="noreferrer"
@@ -55,11 +55,14 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
       </div>
       <div className="day__results">
         <ResultItem part="A">
-          { resultPartA }
+          <button onClick={ () => run('A') } disabled={ isLoading }>{ resultPartA ? 'RE-RUN' : 'RUN' }</button>
+          &nbsp;{ resultPartA }
         </ResultItem>
 
         <ResultItem part="B">
-          { resultPartB }
+          <button onClick={ () => run('B') }
+                  disabled={ isLoading }>{ `${ isLoading ? '♨' : '' } ${ resultPartB ? 'RE-RUN' : 'RUN' }` }</button>
+          &nbsp;{ resultPartB }
         </ResultItem>
       </div>
     </div>

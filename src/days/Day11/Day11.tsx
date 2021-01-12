@@ -26,6 +26,7 @@ const getSeatValue = (arr: Array<Array<any>>, row: number, col: number): Seat =>
 };
 
 const shuffleSeats = (disposition: Array<Array<string>>, adjacentSeats: Array<AdjacentSeatPosition>): Array<Array<string>> => {
+
   const newDisposition = disposition.map((row, rowIndex, previousDisposition) =>
     row.map((col, colIndex) => {
       const currentSeat = getSeatValue(previousDisposition, rowIndex, colIndex) as string;
@@ -48,7 +49,7 @@ const shuffleSeats = (disposition: Array<Array<string>>, adjacentSeats: Array<Ad
 
   const aSeatHasChanged = JSON.stringify(disposition) !== JSON.stringify(newDisposition);
 
-  return aSeatHasChanged ? [...shuffleSeats([...newDisposition], adjacentSeats)] : newDisposition;
+  return aSeatHasChanged ? shuffleSeats(newDisposition, adjacentSeats) : newDisposition;
 };
 
 const countOccupiedSeats = (inputItems: Array<Array<string>>) => {
@@ -60,23 +61,22 @@ const countOccupiedSeats = (inputItems: Array<Array<string>>) => {
 };
 
 const partA = (inputItems: Array<Array<string>>) => {
+  const t0 = performance.now();
   const newSeats = shuffleSeats(inputItems, adjacentSeatsPositions);
+  const t1 = performance.now();
+  console.log({ newSeats, milliseconds: t1 - t0 });
   return countOccupiedSeats(newSeats);
-};
-
-const partB = (inputItems: Array<Array<string>>) => {
-  return 'todo';
 };
 
 export const Day11: React.FC = () => {
   return (
     <>
       <DayItem
-        day={ 10 }
+        day={ 11 }
         customParseInput={ customParseInput }
         inputText={ inputTest }
         partA={ partA }
-        partB={ partB }
+        // partB={ partB }
       />
     </>
   );

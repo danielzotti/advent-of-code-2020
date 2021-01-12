@@ -52,7 +52,6 @@ const getContiguousSetEqualsToWrongNumber = (wrongNumber: number, inputItems: Ar
 
 export const Day9: React.FC = () => {
   const [preambleLength, setPreambleLength] = useState<number>(preambleLengthTest);
-  const [lastUpdate, setLastUpdate] = useState(new Date().toISOString());
 
   const partA = (inputItems: Array<number>) => {
     return preambleLength ? checkSumInPreamble(0, inputItems, preambleLength) : null;
@@ -66,7 +65,6 @@ export const Day9: React.FC = () => {
   const onPreambleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setPreambleLength(parseInt(value));
-    setLastUpdate(new Date().toISOString());
   };
 
   return (
@@ -77,9 +75,8 @@ export const Day9: React.FC = () => {
         inputText={ inputTest }
         partA={ partA }
         partB={ partB }
-        lastUpdate={ lastUpdate }
       >
-        <div>
+        <div style={ { marginBottom: 5 } }>
           Preamble length:
           <select value={ preambleLength } onChange={ onPreambleChange }>
             <option value="5">5 (for example only)</option>
