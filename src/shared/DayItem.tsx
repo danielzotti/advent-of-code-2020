@@ -35,14 +35,16 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
       // In theory, it won't never happen because the button should be disabled
       return;
     }
-    // The code below is an ugly trick to render immediately the component when isLoading changes
-    // Does anyone have a better solution???
     setIsLoading(true);
+    // The code below is an ugly trick to render immediately the component when "isLoading" state changes
+    // Does anyone have a better solution???
     setTimeout(() => {
       setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part A`);
       setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part B`);
+      // setIsLoading(false)
       setTimeout(() => setIsLoading(false), 0);
     }, 0);
+
   };
 
   return (
@@ -53,6 +55,7 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
                   rel="noreferrer"
                   target="_blank">instructions</a>
         <textarea className="day__input__value"
+                  disabled={ isLoading }
                   onChange={ onInputTextChange }
                   value={ inputText }/>
         { props.children }
@@ -61,7 +64,6 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
         <ResultItem part="A">
           &nbsp;{ resultPartA }
         </ResultItem>
-
         <ResultItem part="B">
           &nbsp;{ resultPartB }
         </ResultItem>
