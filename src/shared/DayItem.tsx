@@ -29,20 +29,24 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
   };
 
 
-  const run = (part: 'A' | 'B') => {
+  const run = () => {
+    if(isLoading) {
+      console.log('You clicked when the component was loading');
+      // In theory, it won't never happen because the button should be disabled
+      return;
+    }
+    // The code below is an ugly trick to render immediately the component when isLoading changes
+    // Does anyone have a better solution???
     setIsLoading(true);
-    if(part === 'A') {
-      setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part ${ part }`);
-    }
-    if(part === 'B') {
-      setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part ${ part }`);
-    }
-    setIsLoading(false);
+    setTimeout(() => {
+      setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part A`);
+      setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part B`);
+      setTimeout(() => setIsLoading(false), 0);
+    }, 0);
   };
 
   return (
     <div className="DayItem">
-
       <h3>Day { props.day } </h3>
       <div className="day__input">
         Input: <a href={ `https://adventofcode.com/2020/day/${ props.day }` }
@@ -55,15 +59,16 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
       </div>
       <div className="day__results">
         <ResultItem part="A">
-          <button onClick={ () => run('A') } disabled={ isLoading }>{ resultPartA ? 'RE-RUN' : 'RUN' }</button>
           &nbsp;{ resultPartA }
         </ResultItem>
 
         <ResultItem part="B">
-          <button onClick={ () => run('B') }
-                  disabled={ isLoading }>{ `${ isLoading ? '♨' : '' } ${ resultPartB ? 'RE-RUN' : 'RUN' }` }</button>
           &nbsp;{ resultPartB }
         </ResultItem>
+      </div>
+      <div>
+        <button onClick={ () => run() } disabled={ isLoading } style={ { fontSize: 25, padding: 10 } }>
+          { isLoading ? 'Loading...' : 'Run it!' }</button>
       </div>
     </div>
   );
