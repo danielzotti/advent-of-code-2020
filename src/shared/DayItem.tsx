@@ -11,7 +11,6 @@ export interface DayItemProps {
 }
 
 export const DayItem: React.FC<DayItemProps> = (props) => {
-
   const parseInput = props.customParseInput ? props.customParseInput : (input: string) => {
     return input.split('\n');
   };
@@ -20,7 +19,7 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
   const [inputItems, setInputItems] = useState(parseInput(props.inputText));
   const [resultPartA, setResultPartA] = useState();
   const [resultPartB, setResultPartB] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isFunctionExecuting, setIsFunctionsExecuting] = useState(false);
 
   const onInputTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -28,24 +27,40 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
     setInputText(newText);
   };
 
-
   const run = () => {
-    if(isLoading) {
+    if(isFunctionExecuting) {
       console.log('You clicked when the component was loading');
       // In theory, it won't never happen because the button should be disabled
       return;
     }
-    setIsLoading(true);
+    setIsFunctionsExecuting(true);
     // The code below is an ugly trick to render immediately the component when "isLoading" state changes
     // Does anyone have a better solution???
     setTimeout(() => {
       setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part A`);
       setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part B`);
       // setIsLoading(false)
-      setTimeout(() => setIsLoading(false), 0);
+      setTimeout(() => setIsFunctionsExecuting(false), 0);
     }, 0);
 
   };
+
+  // ALTERNATIVE SOLUTION WITH useEffect BUT IT DOESN'T DISABLE THE BUTTON PROPERLY (TRY TO COMPULSIVELY CLICK THE BUTTON!)
+  // const run = () => {
+  //   if(isFunctionExecuting) {
+  //     return;
+  //   }
+  //   setIsFunctionsExecuting(!isFunctionExecuting);
+  // };
+  //
+  // useEffect(() => {
+  //   if(!isFunctionExecuting) {
+  //     return;
+  //   }
+  //   setResultPartA(props.partA ? props.partA(inputItems) : `You must set a function for Part A`);
+  //   setResultPartB(props.partB ? props.partB(inputItems) : `You must set a function for Part B`);
+  //   setIsFunctionsExecuting(false);
+  // }, [isFunctionExecuting]);
 
   return (
     <div className="DayItem">
@@ -55,7 +70,7 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
                   rel="noreferrer"
                   target="_blank">instructions</a>
         <textarea className="day__input__value"
-                  disabled={ isLoading }
+                  disabled={ isFunctionExecuting }
                   onChange={ onInputTextChange }
                   value={ inputText }/>
         { props.children }
@@ -69,8 +84,8 @@ export const DayItem: React.FC<DayItemProps> = (props) => {
         </ResultItem>
       </div>
       <div>
-        <button onClick={ () => run() } disabled={ isLoading } style={ { fontSize: 25, padding: 10 } }>
-          { isLoading ? 'Loading...' : 'Run it!' }</button>
+        <button onClick={ () => run() } disabled={ isFunctionExecuting } style={ { fontSize: 25, padding: 10 } }>
+          { isFunctionExecuting ? 'Loading...' : 'Run it!' }</button>
       </div>
     </div>
   );
